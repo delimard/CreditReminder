@@ -1,0 +1,99 @@
+{extends file="admin-layout.tpl"}
+
+{block name="no-return-functions"}
+{$admin_current_location = 'tools'}
+{/block}
+
+{block name="page-title"}{intl l='Credit Reminder' d='creditreminder'}{/block}
+
+{block name="check-resource"}admin.module{/block}
+{block name="check-access"}update{/block}
+{block name="check-module"}CreditReminder{/block}
+
+{block name="main-content"}
+<div class="general-block-decorator">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title">
+                <h1>{intl l='Credit Reminder Configuration' d='creditreminder'}</h1>
+            </div>
+
+            <div class="form-container">
+                {form name="creditreminder_config_form"}
+    <form method="POST" action="{url path="/admin/module/CreditReminder/config/update"}" {form_enctype|default:''}>
+        {form_hidden_fields|default:''}
+        
+        {* Ajoutez un champ caché de façon standard *}
+        <input type="hidden" name="success_url" value="{url path='/admin/module/CreditReminder'}">
+        
+        {if $form_error|default:false}
+            <div class="alert alert-danger">{$form_error_message|default:''}</div>
+        {/if}
+        
+        {form_field field="reminder_days_before"}
+        <div class="form-group">
+            <label for="{$label_attr.for|default:''}">{$label|default:'Days before expiration'}</label>
+            <input type="number" id="{$label_attr.for|default:''}" name="{$name|default:'reminder_days_before'}" value="{$value|default:$reminderDaysBefore}" class="form-control" min="1" max="90">
+        </div>
+        {/form_field}
+        
+        {form_field field="reminder_interval_days"}
+        <div class="form-group">
+            <label for="{$label_attr.for|default:''}">{$label|default:'Interval between emails'}</label>
+            <input type="number" id="{$label_attr.for|default:''}" name="{$name|default:'reminder_interval_days'}" value="{$value|default:$reminderIntervalDays}" class="form-control" min="1" max="30">
+        </div>
+        {/form_field}
+        
+        {form_field field="reminder_max_emails"}
+        <div class="form-group">
+            <label for="{$label_attr.for|default:''}">{$label|default:'Maximum emails'}</label>
+            <input type="number" id="{$label_attr.for|default:''}" name="{$name|default:'reminder_max_emails'}" value="{$value|default:$reminderMaxEmails}" class="form-control" min="1" max="5">
+        </div>
+        {/form_field}
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">{intl l='Save' d='creditreminder'}</button>
+        </div>
+    </form>
+{/form}
+            </div>
+
+            <div class="title title-without-tabs">
+                <h2>{intl l='Sent Reminders' d='creditreminder'}</h2>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>{intl l='Customer' d='creditreminder'}</th>
+                            <th>{intl l='Email' d='creditreminder'}</th>
+                            <th>{intl l='Emails Sent' d='creditreminder'}</th>
+                            <th>{intl l='Last Sent Date' d='creditreminder'}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {loop name="credit_reminder" type="credit_reminder"}
+                        <tr>
+                            <td>{$CUSTOMER_NAME}</td>
+                            <td>{$CUSTOMER_EMAIL}</td>
+                            <td>{$EMAILS_SENT}</td>
+                            <td>{$LAST_SENT_DATE|date_format:'%d/%m/%Y %H:%M'}</td>
+                        </tr>
+                        {/loop}
+
+                        {elseloop rel="credit_reminder"}
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <div class="alert alert-info">{intl l='No reminder has been sent yet'
+                                    d='creditreminder'}</div>
+                            </td>
+                        </tr>
+                        {/elseloop}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

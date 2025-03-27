@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module xmlns="http://thelia.net/schema/dic/module"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_2.xsd">
+    <fullnamespace>CreditReminder\CreditReminder</fullnamespace>
+    <descriptive locale="fr_FR">
+        <title>Rappel des crédits fidélité avant expiration</title>
+        <subtitle>Envoie des rappels aux clients dont les crédits arrivent à expiration</subtitle>
+        <description>Module complémentaire à CreditAccount pour avertir les clients de l'expiration prochaine de leurs crédits fidélité</description>
+    </descriptive>
+    <descriptive locale="en_US">
+        <title>Loyalty Credit Expiration Reminder</title>
+        <subtitle>Sends reminders to customers whose loyalty credits are about to expire</subtitle>
+        <description>Complementary module to CreditAccount to notify customers about their loyalty credits expiring soon</description>
+    </descriptive>
+    <languages>
+        <language>fr_FR</language>
+        <language>en_US</language>
+    </languages>
+    <version>1.0.0</version>
+    <authors>
+        <author>
+            <name>Delimard Thibault</name>
+            <email>support@delimard.fr</email>
+        </author>
+    </authors>
+    <type>classic</type>
+    <thelia>2.5.5</thelia>
+    <stability>prod</stability>
+    <mandatory>0</mandatory>
+    <hidden>0</hidden>
+</module>

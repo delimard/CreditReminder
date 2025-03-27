@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database defaultIdMethod="native" name="TheliaMain"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="../../../core/vendor/propel/propel/resources/xsd/database.xsd" > 
+          
+    <table name="credit_reminder" namespace="CreditReminder\Model">
+        <column name="id" primaryKey="true" required="true" type="INTEGER" autoIncrement="true" />
+        <column name="customer_id" required="true" type="INTEGER" />
+        <column name="emails_sent" required="true" type="INTEGER" default="0" />
+        <column name="last_sent_date" required="false" type="TIMESTAMP" />
+        <column name="created_at" type="TIMESTAMP" />
+        <column name="updated_at" type="TIMESTAMP" />
+        
+        <foreign-key foreignTable="customer" name="fk_credit_reminder_customer_id" onDelete="CASCADE">
+            <reference local="customer_id" foreign="id" />
+        </foreign-key>
+        <behavior name="timestampable" />
+    </table>
+    <external-schema filename="local/config/schema.xml" referenceOnly="true" />
+</database>

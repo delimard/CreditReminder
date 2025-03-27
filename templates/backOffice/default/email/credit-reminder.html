@@ -1,0 +1,36 @@
+{extends file="email-layout.tpl"}
+
+{block name="email-subject"}{intl l='Your loyalty credits are about to expire' d='creditreminder'}{/block}
+
+{block name="email-title"}{intl l='Your loyalty credits are about to expire' d='creditreminder'}{/block}
+
+{block name="email-content"}
+<p>{intl l='Dear' d='creditreminder'} {$customer_firstname|default:''} {$customer_lastname|default:''},</p>
+
+<p>
+    {intl l='We wanted to remind you that you have' d='creditreminder'} <strong>{$credit_amount|number_format:2:",":"."|default:"0,00"} €</strong>
+    {intl l='in loyalty credits that will expire on' d='creditreminder'} <strong>{$expiration_date|date_format:'%d/%m/%Y'|default:''}</strong>.
+</p>
+
+<p>
+    {intl l='To use your credits before they expire, simply make a purchase on our website and select "Use my loyalty credits" during checkout.' d='creditreminder'}
+</p>
+
+<center>
+    <table border="0" cellpadding="0" cellspacing="0" class="templateButton" style="background-color: #f49a17; border-radius: 5px;">
+        <tr>
+            <td valign="middle" class="templateButtonContent" style="padding: 15px;">
+                <a href="{$url_site|default:''}/account" target="_blank" style="color: #FFFFFF; text-decoration: none; font-weight: bold;">
+                    {intl l='Access my account' d='creditreminder'}
+                </a>
+            </td>
+        </tr>
+    </table>
+</center>
+
+<p>
+    {intl l='Thank you for your loyalty!' d='creditreminder'}
+</p>
+
+<p>{$company_name|default:'Notre entreprise'}</p>
+{/block}
