@@ -1,22 +1,35 @@
-# Credit Reminder
+# 🕒 Credit Reminder
 
-Ce module est utilisé pour envoyer un e-mail de rappel aux clients avant l'expiration de leur crédit.
+**Credit Reminder** est un module Thelia qui permet d'envoyer automatiquement un e-mail de rappel aux clients avant l'expiration de leurs crédits fidélité.
 
-## Installation
+---
 
-```  
-$ cd local/modules  
-$ git clone https://github.com/thelia-modules/CreditReminder  
-```  
-Vous pouvez également télécharger le zip depuis Github.
+## 🚀 Installation
 
-Ensuite, il vous suffit d'activer le module dans votre back-office.
+Clonez le dépôt dans le dossier `local/modules` de votre installation Thelia :
 
-## Cas d'utilisation
+```
+cd local/modules
+git clone https://github.com/thelia-modules/CreditReminder
+```
+Vous pouvez également télécharger le module en ZIP et le décompresser le contenue dans le dossier :
+```local/modules/CreditReminder/```
 
-Dans le back-office, vous trouverez un onglet « Credit Reminder » qui répertorie les clients dont l'e-mail a été envoyé.
+Ensuite, activez simplement le module depuis le back-office de Thelia.
 
-Ce module sert à envoyer par email des rappels aux clients dont les crédits fidélité vont bientôt expirer. Il interroge la base de données pour identifier les comptes concernés, vérifie que suffisamment de temps s'est écoulé depuis le dernier rappel, puis déclenche un événement qui envoie l'email de rappel.
+## 🛠️ Fonctionnement
 
-La commande associée peut être aussi utiliser dans le cas d'un cron : `php Thelia credit:send-reminders`
-  
+Le module interroge la base de données pour :
+
+Identifier les clients dont les crédits arrivent à expiration.
+Vérifier qu’un e-mail de rappel n’a pas déjà été envoyé récemment.
+Déclencher automatiquement l’envoi d’un e-mail de rappel.
+Une fois les e-mails envoyés, vous pouvez consulter les clients notifiés dans l'onglet Credit Reminder du back-office.
+
+## ⏱️ Utilisation en ligne de commande
+
+Pour automatiser l’envoi des rappels, une commande CLI est disponible. Elle peut être utilisée avec un cron job :
+
+```php Thelia credit:send-reminders```
+
+N'hésitez pas à contribuer ou à ouvrir une issue si vous avez des suggestions ou des problèmes !
