@@ -13,7 +13,7 @@ class CreditReminder extends BaseCreditReminder
      *
      * @return string
      */
-    public function getCustomerName(): string
+    public function getCustomerName()
     {
         $customer = CustomerQuery::create()->findPk($this->getCustomerId());
         
@@ -29,7 +29,7 @@ class CreditReminder extends BaseCreditReminder
      *
      * @return string
      */
-    public function getCustomerEmail(): string
+    public function getCustomerEmail()
     {
         $customer = CustomerQuery::create()->findPk($this->getCustomerId());
         

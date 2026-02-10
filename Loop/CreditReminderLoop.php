@@ -4,8 +4,6 @@ namespace CreditReminder\Loop;
 
 use CreditReminder\Model\CreditReminderQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\Exception\PropelException;
 use Thelia\Core\Template\Element\BaseLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
@@ -16,10 +14,7 @@ use Thelia\Model\CustomerQuery;
 
 class CreditReminderLoop extends BaseLoop implements PropelSearchLoopInterface
 {
-    /**
-     * @return ArgumentCollection
-     */
-    protected function getArgDefinitions(): ArgumentCollection
+    protected function getArgDefinitions()
     {
         return new ArgumentCollection(
             Argument::createIntTypeArgument('customer_id'),
@@ -29,10 +24,7 @@ class CreditReminderLoop extends BaseLoop implements PropelSearchLoopInterface
         );
     }
 
-    /**
-     * @return CreditReminderQuery|ModelCriteria
-     */
-    public function buildModelCriteria(): CreditReminderQuery|ModelCriteria
+    public function buildModelCriteria()
     {
         $query = CreditReminderQuery::create();
 
@@ -66,12 +58,7 @@ class CreditReminderLoop extends BaseLoop implements PropelSearchLoopInterface
         return $query;
     }
 
-    /**
-     * @param LoopResult $loopResult
-     * @return LoopResult
-     * @throws PropelException
-     */
-    public function parseResults(LoopResult $loopResult): LoopResult
+    public function parseResults(LoopResult $loopResult)
     {
         /** @var \CreditReminder\Model\CreditReminder $reminder */
         foreach ($loopResult->getResultDataCollection() as $reminder) {

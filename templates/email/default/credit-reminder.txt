@@ -1,0 +1,19 @@
+👋 {intl l="Hello %firstname!" firstname={$customer->getFirstname()} d="creditreminder"}
+
+⏰ {intl l="We wanted to remind you that you have a loyalty credit of %amount that will expire on %date." amount={$credit_amount|number_format:2} date={$expiration_date|date_format:"%d/%m/%Y"} d="creditreminder"}
+
+💳 {intl l="Your credit:" d="creditreminder"} {$credit_amount|number_format:2} €
+⏳ {intl l="Expires on:" d="creditreminder"} {$expiration_date|date_format:"%d/%m/%Y"}
+
+⚠️ {intl l="Don't let your credit go to waste!" d="creditreminder"}
+{intl l="Use it before it's too late!" d="creditreminder"} 🎁
+
+🛒 {intl l="Use your credit now" d="creditreminder"} : {url path="/"}
+
+{intl l="Thank you for your loyalty!" d="creditreminder"} 🙏
+{$store_name}
+
+{if $is_test}
+⚠️ {intl l="TEST EMAIL" d="creditreminder"}
+{intl l="This is a test email. No real email will be sent to customers." d="creditreminder"}
+{/if}

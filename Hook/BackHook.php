@@ -7,11 +7,8 @@ use Thelia\Core\Hook\BaseHook;
 
 class BackHook extends BaseHook
 {
-    /**
-     * @param HookRenderEvent $event
-     * @return void
-     */
-    public function onMainInTopMenuItems(HookRenderEvent $event): void
+  
+    public function onMainInTopMenuItems(HookRenderEvent $event)
     {
         $event->add(
             $this->render('CreditReminder/hook/main.in.top.menu.items.html', [])

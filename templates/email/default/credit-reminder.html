@@ -1,0 +1,52 @@
+{extends file="email-layout.tpl"}
+
+{block name="email-subject"}💰 {intl l="Your loyalty credit is about to expire!" d="creditreminder"}{/block}
+
+{block name="email-title"}{intl l="Hello %firstname!" firstname={$customer->getFirstname()|default:''} d="creditreminder"} 👋{/block}
+
+{block name="email-content"}
+
+<p>
+    ⏰ {intl l="We wanted to remind you that you have a loyalty credit of %amount that will expire on %date." amount={$credit_amount|default:0|number_format:2} date={$expiration_date|date_format:"%d/%m/%Y"|default:''} d="creditreminder"}
+</p>
+
+{* Bloc crédit avec informations *}
+<div style="background-color: #f8f9fa; padding: 20px; margin: 20px 0; border-radius: 5px; border-left: 3px solid #28a745; text-align: center;">
+    <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">
+        💳 {intl l="Your credit:" d="creditreminder"}
+    </p>
+    <p style="margin: 0 0 15px 0; font-size: 32px; font-weight: bold; color: #28a745;">
+        {$credit_amount|default:0|number_format:2} €
+    </p>
+    <p style="margin: 0; color: #dc3545; font-size: 14px; font-weight: bold;">
+        ⏳ {intl l="Expires on:" d="creditreminder"} {$expiration_date|date_format:"%d/%m/%Y"|default:''}
+    </p>
+</div>
+
+{* Message d'encouragement *}
+<div style="background-color: #fff3cd; border-left: 3px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 5px;">
+    <p style="margin: 0;">
+        ⚠️ <strong>{intl l="Don't let your credit go to waste!" d="creditreminder"}</strong><br>
+        {intl l="Use it before it's too late!" d="creditreminder"} 🎁
+    </p>
+</div>
+
+{* Bouton CTA *}
+<p style="text-align: center; margin: 30px 0;">
+    <a class="btn-panier" href="{url path="/"}" style="color: #fff; background-color: #28a745; padding: 15px 40px; text-transform: uppercase; text-decoration: none; display: inline-block; border-radius: 5px; font-weight: bold;">
+        🛒 {intl l="Use your credit now" d="creditreminder"}
+    </a>
+</p>
+
+<p style="text-align: center; margin-top: 30px;">
+    {intl l="Thank you for your loyalty!" d="creditreminder"} 🙏
+</p>
+
+{if $is_test|default:false}
+<div style="background-color: #fff3cd; border: 2px solid #ffc107; padding: 15px; margin: 20px 0; border-radius: 5px; text-align: center;">
+    <strong style="color: #856404;">⚠️ {intl l="TEST EMAIL" d="creditreminder"}</strong><br>
+    <span style="color: #856404; font-size: 13px;">{intl l="This is a test email. No real email will be sent to customers." d="creditreminder"}</span>
+</div>
+{/if}
+
+{/block}

@@ -2,26 +2,30 @@
 <config xmlns="http://thelia.net/schema/dic/config"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+    
     <loops>
         <loop name="credit_reminder" class="CreditReminder\Loop\CreditReminderLoop" />
+        <loop name="credit_reminder_log" class="CreditReminder\Loop\CreditReminderLog" />
     </loops>
+    
     <commands>
-        <command class="CreditReminder\Command\CreditReminderCommand" />
+        <command class="CreditReminder\Command\SendReminderCommand" />
     </commands>
+    
     <services>
         <service id="credit_reminder.form" class="CreditReminder\Form\ConfigurationForm" public="true">
             <tag name="thelia.form"/>
         </service>
     </services>
-
+    
     <hooks>
         <hook id="credit_reminder.hook" class="CreditReminder\Hook\BackHook">
             <tag name="hook.event_listener" event="main.in-top-menu-items" type="back" method="onMainInTopMenuItems" />
         </hook>
     </hooks>
-
+    
     <forms>
-        <form name="creditreminder.config.form" class="CreditReminder\Form\ConfigurationForm" />
+        <form name="creditreminder.configuration" class="CreditReminder\Form\ConfigurationForm" />
     </forms>
-   
+    
 </config>

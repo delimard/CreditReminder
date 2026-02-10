@@ -17,7 +17,7 @@
         <language>fr_FR</language>
         <language>en_US</language>
     </languages>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <authors>
         <author>
             <name>Delimard Thibault</name>
@@ -25,10 +25,7 @@
         </author>
     </authors>
     <type>classic</type>
-    <required>
-        <module version="~2.0.5">CreditAccount</module>
-    </required>
-    <thelia>2.5.0</thelia>
+    <thelia>2.5.5</thelia>
     <stability>prod</stability>
     <mandatory>0</mandatory>
     <hidden>0</hidden>

@@ -1,25 +1,27 @@
 <?php
+
 namespace CreditReminder;
+
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ServicesConfigurator;
+use Thelia\Core\Translation\Translator;
 use Thelia\Install\Database;
-use Thelia\Model\MessageQuery;
+use Thelia\Model\Lang;
+use Thelia\Model\LangQuery;
 use Thelia\Model\Message;
+use Thelia\Model\MessageQuery;
 use Thelia\Module\BaseModule;
 
 class CreditReminder extends BaseModule
 {
     /** @var string */
     public const DOMAIN_NAME = 'creditreminder';
-    public const CREDIT_REMINDER_MESSAGE_NAME = 'credit_reminder';
-
-    public const REMINDER_DAYS_BEFORE = 'first_reminder_in_days';
-    public const REMINDER_INTERVAL_DAYS = 'interval_reminder_in_days';
-    public const REMINDER_MAX_EMAILS = 'max_email_reminder';
-
-    /** @const Event constant for sending credit reminder emails */
-    public const CREDIT_REMINDER_SEND_EMAIL = 'credit_reminder.send_email';
+    public const CREDIT_REMINDER_MESSAGE_NAME = 'credit-reminder-message';
+    
+    public const REMINDER_DAYS_BEFORE = 'reminder_days_before';
+    public const REMINDER_INTERVAL_DAYS = 'reminder_interval_days';
+    public const REMINDER_MAX_EMAILS = 'max_emails_per_run';
 
     /**
      * @param ConnectionInterface|null $con
@@ -28,59 +30,61 @@ class CreditReminder extends BaseModule
      */
     public function postActivation(ConnectionInterface $con = null): void
     {
-        try {
-            $this->setConfigVariables();
-            
-            // Ensure SQL schema is correctly installed
+        if (null === self::getConfigValue('is-initialized')) {
             $database = new Database($con);
             $database->insertSql(null, [__DIR__ . "/Config/thelia.sql"]);
-            
-            // Create credit reminder message if it doesn't exist
-            if (null === MessageQuery::create()->findOneByName(self::CREDIT_REMINDER_MESSAGE_NAME)) {
-                $message = new Message();
-                $email_templates_dir = __DIR__ . DIRECTORY_SEPARATOR . 'template' . DIRECTORY_SEPARATOR . 'backOffice' . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'email' . DIRECTORY_SEPARATOR;
 
-                $message
-                    ->setName(self::CREDIT_REMINDER_MESSAGE_NAME)
-                    ->setLocale('en_US')
-                    ->setTitle('Credit Reminder')
-                    ->setSubject('Credit Reminder for your Account')
-                    ->setHtmlMessage(file_get_contents($email_templates_dir . 'credit-reminder.html'))
-                    ->setTextMessage(file_get_contents($email_templates_dir . 'credit-reminder.txt'))
+            self::setConfigValue('is-initialized', 1);
+        }
 
-                    ->setLocale('fr_FR')
-                    ->setTitle('Rappel de Crédit')
-                    ->setSubject('Rappel de Crédit pour votre Compte')
-                    ->setHtmlMessage(file_get_contents($email_templates_dir . 'credit-reminder.html'))
-                    ->setTextMessage(file_get_contents($email_templates_dir . 'credit-reminder.txt'))
+        // Valeur par défaut : 30 jours avant expiration
+        if (null === self::getConfigValue(self::REMINDER_DAYS_BEFORE)) {
+            self::setConfigValue(self::REMINDER_DAYS_BEFORE, 30);
+        }
 
-                    ->save()
-                ;
+        // Valeur par défaut : 10 jours entre deux rappels
+        if (null === self::getConfigValue(self::REMINDER_INTERVAL_DAYS)) {
+            self::setConfigValue(self::REMINDER_INTERVAL_DAYS, 10);
+        }
+
+        // Valeur par défaut : 100 emails par exécution
+        if (null === self::getConfigValue(self::REMINDER_MAX_EMAILS)) {
+            self::setConfigValue(self::REMINDER_MAX_EMAILS, 100);
+        }
+
+        // Créer le message email si il n'existe pas
+        if (null === MessageQuery::create()->findOneByName(self::CREDIT_REMINDER_MESSAGE_NAME)) {
+
+            $message = new Message();
+            $message
+                ->setName(self::CREDIT_REMINDER_MESSAGE_NAME)
+                ->setHtmlLayoutFileName('')
+                ->setHtmlTemplateFileName('credit-reminder.html')
+                ->setTextLayoutFileName('')
+                ->setTextTemplateFileName('credit-reminder.txt');
+
+            $languages = LangQuery::create()->find();
+
+            foreach ($languages as $language) {
+                /** @var Lang $language */
+                $locale = $language->getLocale();
+
+                $message->setLocale($locale);
+
+                $message->setTitle(
+                    Translator::getInstance()->trans("Your loyalty credit is about to expire!", [], self::DOMAIN_NAME, $locale)
+                );
+
+                $message->setSubject(
+                    Translator::getInstance()->trans("Your loyalty credit is about to expire!", [], self::DOMAIN_NAME, $locale)
+                );
             }
-        } catch (\Exception $e) {
-            // Log or handle the exception as needed
+
+            $message->save();
         }
     }
 
     /**
-     * Set default configuration variables
-     */
-    private function setConfigVariables(): void
-    {
-        if (null === self::getConfigValue(self::REMINDER_DAYS_BEFORE, null)) {
-            self::setConfigValue(self::REMINDER_DAYS_BEFORE, 30);
-        }
-        if (null === self::getConfigValue(self::REMINDER_INTERVAL_DAYS, null)) {
-            self::setConfigValue(self::REMINDER_INTERVAL_DAYS, 10);
-        }
-        if (null === self::getConfigValue(self::REMINDER_MAX_EMAILS, null)) {
-            self::setConfigValue(self::REMINDER_MAX_EMAILS, 2);
-        }
-    }
-
-    // Reste du code du module inchangé
-
-   /**
      * @param ServicesConfigurator $servicesConfigurator
      * @return void
      */
