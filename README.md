@@ -30,6 +30,6 @@ Une fois les e-mails envoyés, vous pouvez consulter les clients notifiés dans 
 
 Pour automatiser l’envoi des rappels, une commande CLI est disponible. Elle peut être utilisée avec un cron job :
 
-```php Thelia credit:send-reminders```
+```php Thelia CreditReminder:send```
 
 N'hésitez pas à contribuer ou à ouvrir une issue si vous avez des suggestions ou des problèmes !
