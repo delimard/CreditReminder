@@ -1,0 +1,26 @@
+{
+    "name": "creditreminder/creditreminder",
+    "type": "thelia-module",
+    "description": "Send reminder emails to customers whose loyalty credits are about to expire",
+    "keywords": [
+        "thelia",
+        "module",
+        "credit",
+        "reminder",
+        "loyalty",
+        "email"
+    ],
+    "authors": [
+        {
+            "name": "Delimard Thibault",
+            "email": "support@delimard.fr",
+            "homepage": "http://www.delimard.fr"
+        }
+    ],
+    "require": {
+        "thelia/installer": "~1.1"
+    },
+    "extra": {
+        "installer-name": "CreditReminder"
+    }
+}
